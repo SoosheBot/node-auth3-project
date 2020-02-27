@@ -28,7 +28,7 @@ router.post("/login", (req,res) => {
     .then(user => {
         if (user && bcrypt.compareSync(password, user.password)) {
             
-            const token = signToken(user);
+            const token = generateToken(user);
             res.status(200).json({token})
         } else {
             res.status(401).json({ error: "Invalid credentials, cannot login."})
@@ -53,10 +53,11 @@ router.get("/logout", (req,res) => {
     }
 });
 
-function signToken(user) {
+function generateToken(user) {
     const payload = {
         userId: user.id,
-        user: user.password
+        user: user.password,
+        department: user.department || "unassigned"
     };
 
     const options = {
