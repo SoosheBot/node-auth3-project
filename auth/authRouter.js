@@ -57,7 +57,7 @@ function generateToken(user) {
     const payload = {
         userId: user.id,
         user: user.password,
-        department: user.department || "unassigned"
+        department: user.department || "admin"
     };
 
     const options = {
