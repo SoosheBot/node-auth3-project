@@ -14,7 +14,11 @@ router.post("/register", (req,res) => {
 
     Users.add(user)
     .then(saved => {
-        res.status(201).json(saved);
+        if (user.username && user.password && user.department) {
+            res.status(201).json(saved);
+        } else {
+            res.status(404).json({ message: "Did you include a username, password, and department?"})
+        }    
     })
     .catch(err => {
         res.status(500).json({ error: "Registration error."})

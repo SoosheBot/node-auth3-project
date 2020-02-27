@@ -14,15 +14,15 @@ server.use(express.json());
 server.use(cors());
 
 server.use('/api/auth', authRouter);
-server.use('/api/users', restricted, departments("admin"), usersRouter);
+server.use('/api/users', restricted, role("admin"), usersRouter);
 
 server.get('/', (req, res) => {
   res.send("It's alive!");
 });
 
-function departments(department) {
+function role(role) {
   return function(req,res,next) {
-      if (req.decodedToken && req.decodedToken.department.toLowerCase() === department) {
+      if (req.decodedToken && req.decodedToken.role.toLowerCase() === role) {
           next();
       } else {
           res.status(403).json({ message: "You are not authorized to access this department"});
