@@ -39,8 +39,31 @@ router.post("/login", (req,res) => {
     });
 });
 
-function signToken() {
+router.get("/logout", (req,res) => {
+    if (req.session) {
+        req.session.destroy(err => {
+            if (err) {
+                res.status(500).json({ err: "Could not log out"});
+            } else {
+                res.status(200).json({ message: "You are now logged out. Seeya later."})
+            }
+        })
+    } else {
+        res.status(200).json({ message: "Logout success."})
+    }
+});
 
+function signToken(user) {
+    const payload = {
+        userId: user.id,
+        user: user.password
+    };
+
+    const options = {
+        expiresIn: '1h'
+    };
+
+    return jwt.sign(payload, jwtSecret, options);
 };
 
 module.exports = router;
