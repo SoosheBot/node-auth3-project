@@ -23,7 +23,7 @@ function find() {
   
  function add(user) {
     return db("usersTable")
-    .insert(newUser)
+    .insert(user)
     .then(ids => {
       const [id] = ids;
       return findById(id);
